@@ -45,6 +45,7 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
                 <li><a href="index.php" class="nav-link">Início</a></li>
                 <li><a href="pages/checklist.php" class="nav-link">Checklist</a></li>
                 <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
+                <li><a href="pages/envio_comunicacao.php" class="nav-link">Envio e Comunicação</a></li>
             </ul>
         </nav>
         
