@@ -48,6 +48,12 @@ body {
     color: #000000;
 }
 
+/* Page Header - Centralizado */
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
 /* Conteúdo Principal */
 .main-content {
     text-align: center;
@@ -58,9 +64,16 @@ body {
 .page-title {
     font-size: 2.2rem;
     font-weight: 300;
-    margin-bottom: 60px;
+    margin-bottom: 0;
     color: #000000;
     letter-spacing: -1px;
+}
+
+/* Seção do Botão Adicionar - Centralizada e mais próxima do título */
+.add-item-section {
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top: 30px;
 }
 
 /* Formulário */
@@ -112,6 +125,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 40px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border-radius: 4px;
 }
 
 .btn-primary:hover {
@@ -123,6 +140,60 @@ body {
     transform: translateY(0);
 }
 
+.btn-secondary {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #e0e0e0;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background: #f5f5f5;
+    border-color: #000000;
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #666666;
+    border: 1px solid #cccccc;
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.btn-cancel:hover {
+    background: #f5f5f5;
+    border-color: #999999;
+    color: #333333;
+}
+
+.form-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
 /* Estados de Validação */
 .form-input.error {
     border-bottom: 2px solid #ff0000;
@@ -130,6 +201,160 @@ body {
 
 .form-input.success {
     border-bottom: 2px solid #00aa00;
+}
+
+/* Container da Tabela */
+.table-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    overflow-x: auto;
+}
+
+/* Estilos da Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Cabeçalho da Tabela */
+thead {
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+}
+
+thead tr {
+    color: #ffffff;
+}
+
+thead th {
+    padding: 20px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+}
+
+thead th:last-child {
+    border-right: none;
+}
+
+/* Corpo da Tabela */
+tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody td {
+    padding: 18px 16px;
+    color: #333333;
+    font-size: 14px;
+    line-height: 1.5;
+    border-right: 1px solid #f0f0f0;
+    vertical-align: top;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+tbody td:last-child {
+    border-right: none;
+}
+
+/* Célula ID */
+tbody td:first-child {
+    font-weight: 600;
+    color: #000000;
+    text-align: center;
+    min-width: 60px;
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-andamento {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-concluido {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-vencido {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.ncf-critica {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.ncf-maior {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.ncf-menor {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Datas */
+.date-cell {
+    font-family: 'Courier New', monospace;
+    color: #666666;
+    white-space: nowrap;
+}
+
+/* Scrollbar personalizada */
+.table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #999999;
 }
 
 /* Responsividade */
@@ -145,11 +370,73 @@ body {
 
     .page-title {
         font-size: 1.8rem;
+        margin-bottom: 0;
+    }
+
+    .add-item-section {
+        margin-top: 25px;
         margin-bottom: 40px;
     }
 
     .nav-link {
         font-size: 12px;
+    }
+
+    .form-container {
+        padding: 0 10px 40px;
+    }
+
+    .checklist-form {
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    thead th {
+        padding: 16px 12px;
+        font-size: 12px;
+    }
+
+    tbody td {
+        padding: 14px 12px;
+        font-size: 13px;
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .checklist-form {
+        padding: 15px;
+    }
+
+    .table-container {
+        padding: 15px;
+        margin: 0 5px;
+    }
+
+    thead th {
+        padding: 12px 8px;
+        font-size: 11px;
+    }
+
+    tbody td {
+        padding: 12px 8px;
+        font-size: 12px;
+        max-width: 120px;
+    }
+
+    .add-item-section {
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 }
 
@@ -162,6 +449,21 @@ body {
     from {
         opacity: 0;
         transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-container {
+    animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
     to {
         opacity: 1;

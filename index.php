@@ -11,7 +11,7 @@
         <nav class="main-nav">
             <ul class="nav-list">
                 <li><a href="index.php" class="nav-link">Início</a></li>
-                <li><a href="pages/checklist.php" class="nav-link">Checklist</a></li>
+                <li><a href="checklist.php" class="nav-link">Checklist</a></li>
                 <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
             </ul>
         </nav>
