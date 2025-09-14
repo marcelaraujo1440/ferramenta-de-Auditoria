@@ -11,9 +11,8 @@
         <nav class="main-nav">
             <ul class="nav-list">
                 <li><a href="index.php" class="nav-link">Início</a></li>
-                <li><a href="pages/auditoria.php" class="nav-link">Auditoria</a></li>
+                <li><a href="pages/checklist.php" class="nav-link">Checklist</a></li>
                 <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
-                <li><a href="pages/configuracoes.php" class="nav-link">Configurações</a></li>
             </ul>
         </nav>
         
