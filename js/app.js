@@ -6,6 +6,7 @@ class AuditTool {
 
     init() {
         this.bindEvents();
+        this.initModal();
     }
 
     bindEvents() {
@@ -22,6 +23,23 @@ class AuditTool {
         }
     }
 
+    initModal() {
+        // Auto-fechar modal após 3 segundos se estiver visível
+        const modal = document.getElementById('successModal');
+        if (modal && modal.classList.contains('show')) {
+            setTimeout(() => {
+                this.closeModal();
+            }, 3000);
+        }
+
+        // Fechar modal clicando fora dele
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                this.closeModal();
+            }
+        };
+    }
+
     handleCreateChecklist() {
         const input = document.getElementById('checklist-name');
         const value = input.value.trim();
@@ -29,11 +47,9 @@ class AuditTool {
         if (value === '') {
             this.showError(input, 'Por favor, insira um nome para o checklist');
         } else {
-            this.showSuccess(input, `Checklist "${value}" criado com sucesso`);
-            setTimeout(() => {
-                input.value = '';
-                this.resetInput(input);
-            }, 2000);
+            // Como agora usamos PHP form submit, não precisamos fazer nada aqui
+            // O formulário será enviado normalmente
+            return true;
         }
     }
 
@@ -42,7 +58,12 @@ class AuditTool {
         input.classList.add('error');
         input.focus();
         
+        // Mostrar mensagem de erro temporariamente no placeholder
+        const originalPlaceholder = input.placeholder;
+        input.placeholder = message;
+        
         setTimeout(() => {
+            input.placeholder = originalPlaceholder;
             this.resetInput(input);
         }, 3000);
     }
@@ -57,6 +78,24 @@ class AuditTool {
         input.classList.remove('error', 'success');
         input.placeholder = 'Insira o nome do seu checklist';
     }
+
+    closeModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.classList.remove('show');
+            // Limpar o formulário após fechar o modal
+            const input = document.getElementById('checklist-name');
+            if (input) {
+                input.value = '';
+            }
+        }
+    }
+}
+
+// Função global para o botão do modal
+function closeModal() {
+    const auditTool = new AuditTool();
+    auditTool.closeModal();
 }
 
 // Inicializar quando o DOM estiver carregado
