@@ -9,7 +9,7 @@ $host = 'localhost';
 $port = '3307';
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = 'root';
+$password = '';
 
 if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-name']))) {
     try {
