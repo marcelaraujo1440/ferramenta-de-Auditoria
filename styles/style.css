@@ -210,6 +210,7 @@ body {
     border-bottom: 2px solid #00aa00;
 }
 
+
 /* Container da Tabela */
 .table-container {
     max-width: 1400px;
@@ -418,6 +419,11 @@ tbody td:first-child {
         font-size: 13px;
         max-width: 150px;
     }
+
+    .modal-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -445,6 +451,10 @@ tbody td:first-child {
         margin-top: 20px;
         margin-bottom: 30px;
     }
+
+    .modal-content {
+        padding: 25px 15px;
+    }
 }
 
 /* Animações */
@@ -460,6 +470,17 @@ tbody td:first-child {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
