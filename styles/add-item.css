@@ -23,7 +23,6 @@ body {
 
 /* Navegação */
 .main-nav {
-    border-bottom: 1px solid #e0e0e0;
     margin-bottom: 60px;
     padding-bottom: 20px;
 }
@@ -78,7 +77,6 @@ body {
     background: #ffffff;
     padding: 40px;
     border-radius: 8px;
-  
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     animation: fadeIn 0.6s ease;
 }
@@ -121,7 +119,6 @@ body {
     width: 100%;
     padding: 16px 0;
     border: none;
-    border-bottom: 2px solid #e0e0e0;
     background: transparent;
     font-size: 16px;
     color: #000000;
@@ -131,7 +128,6 @@ body {
 }
 
 .form-input:focus {
-    border-bottom-color: #000000;
     transform: translateY(-2px);
 }
 
@@ -192,7 +188,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
     justify-content: center;
     margin-top: 50px;
     padding-top: 30px;
-    border-top: 1px solid #f0f0f0;
 }
 
 /* Botão primário personalizado */
@@ -243,7 +238,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
 .btn-secondary {
     background: #ffffff;
     color: #000000;
-    border: 1px solid #e0e0e0;
     padding: 12px 20px;
     font-size: 13px;
     font-weight: 400;
@@ -258,7 +252,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
 
 .btn-secondary:hover {
     background: #f5f5f5;
-    border-color: #000000;
     transform: translateY(-1px);
 }
 
@@ -266,7 +259,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
 .btn-cancel {
     background: #ffffff;
     color: #666666;
-    border: 2px solid #e0e0e0;
     padding: 16px 34px;
     font-size: 14px;
     font-weight: 500;
@@ -283,7 +275,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
 
 .btn-cancel:hover {
     background: #f8f8f8;
-    border-color: #000000;
     color: #000000;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -295,21 +286,18 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator {
 
 /* Estados de validação melhorados */
 .form-input.error {
-    border-bottom-color: #e74c3c;
     animation: shake 0.5s ease;
 }
 
 .form-input.success {
-    border-bottom-color: #27ae60;
+    background: #f8f8f8;
 }
 
 .form-input.error:focus {
-    border-bottom-color: #c0392b;
     box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
 }
 
 .form-input.success:focus {
-    border-bottom-color: #229954;
     box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
 }
 
