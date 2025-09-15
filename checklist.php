@@ -1,9 +1,42 @@
+<?php
+session_start();
+
+$checklist_nome = isset($_SESSION['checklist_nome']) ? $_SESSION['checklist_nome'] : 'Checklist de Auditoria';
+$checklist_id = isset($_SESSION['checklist_id']) ? $_SESSION['checklist_id'] : null;
+
+if (!$checklist_nome || $checklist_nome === 'Checklist de Auditoria') {
+    try {
+        $host = 'localhost';
+        $dbname = 'ferramenta_auditoria';
+        $username = 'root'; 
+        $password = '';   //se necessário, ajuste a senha ou remova-a
+        
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = "SELECT id, nome FROM checklist ORDER BY id DESC LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $ultimo_checklist = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($ultimo_checklist) {
+            $checklist_nome = $ultimo_checklist['nome'];
+            $checklist_id = $ultimo_checklist['id'];
+            $_SESSION['checklist_nome'] = $checklist_nome;
+            $_SESSION['checklist_id'] = $checklist_id;
+        }
+    } catch (PDOException $e) {
+        $checklist_nome = 'Checklist de Auditoria';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ferramenta de Auditoria</title>
+        <title><?php echo htmlspecialchars($checklist_nome); ?> - Ferramenta de Auditoria</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
@@ -13,11 +46,15 @@
                     <li><a href="index.php" class="nav-link">Início</a></li>
                     <li><a href="checklist.php" class="nav-link">Checklist</a></li>
                     <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
+                    <li><a href="pages/envio_comunicacao.php" class="nav-link">Envio e Comunicação</a></li>
                 </ul>
             </nav>
         </div>
         <div class="page-header">
-            <h2 class="page-title">Checklist de Auditoria</h2>
+            <h2 class="page-title"><?php echo htmlspecialchars($checklist_nome); ?></h2>
+            <?php if ($checklist_id): ?>
+                <p class="checklist-info">ID do Checklist: #<?php echo $checklist_id; ?></p>
+            <?php endif; ?>
         </div>
         
         <div class="add-item-section">

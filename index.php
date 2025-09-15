@@ -1,11 +1,13 @@
 <?php
+session_start();
+
 $message = '';
 $success = false;
 
 $host = 'localhost';
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = 'root';   //se necessário, ajuste a senha ou remova-a
+$password = '';   //se necessário, ajuste a senha ou remova-a
 
 
 if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-name']))) {
@@ -20,6 +22,9 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
         $result = $stmt->execute([':nome' => $nome]);
         
         if ($result) {
+            $_SESSION['checklist_nome'] = $nome;
+            $_SESSION['checklist_id'] = $pdo->lastInsertId();
+            
             $success = true;
             $message = "Checklist '$nome' criado com sucesso!";
         }
@@ -68,7 +73,11 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
         <div class="modal-content">
             <h2>✓ Concluído!</h2>
             <p><?php echo $message; ?></p>
-            <button class="modal-close" onclick="closeModal()">OK</button>
+            <?php if ($success): ?>
+                <a href="checklist.php" class="modal-close btn-primary">Ver Checklist</a>
+            <?php else: ?>
+                <button class="modal-close" onclick="closeModal()">OK</button>
+            <?php endif; ?>
         </div>
     </div>
 
