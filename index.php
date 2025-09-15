@@ -4,15 +4,17 @@ session_start();
 $message = '';
 $success = false;
 
+// Configurações do banco
 $host = 'localhost';
+$port = '3307';
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = '';   //se necessário, ajuste a senha ou remova-a
-
+$password = '';
 
 if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-name']))) {
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
+        $pdo = new PDO($dsn, $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
         $nome = trim($_POST['checklist-name']);
@@ -41,7 +43,6 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ferramenta de Auditoria</title>
     <link rel="stylesheet" href="style.css">
-       
 </head>
 <body>
     <div class="container">
@@ -68,10 +69,9 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
         </div>
     </div>
 
-
     <div id="successModal" class="modal <?php echo $success ? 'show' : ''; ?>">
         <div class="modal-content">
-            <h2>✓ Concluído!</h2>
+            <h2><?php echo $success ? '✓ Concluído!' : '❌ Erro'; ?></h2>
             <p><?php echo $message; ?></p>
             <?php if ($success): ?>
                 <a href="checklist.php" class="modal-close btn-primary">Ver Checklist</a>
@@ -82,5 +82,10 @@ if ($_POST && isset($_POST['checklist-name']) && !empty(trim($_POST['checklist-n
     </div>
 
     <script src="js/app.js"></script>
+    <script>
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+    </script>
 </body>
 </html>
