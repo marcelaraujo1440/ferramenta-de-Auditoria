@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS ferramenta_auditoria;
 USE ferramenta_auditoria;
+
 CREATE TABLE checklist (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
