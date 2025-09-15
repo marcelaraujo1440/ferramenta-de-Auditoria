@@ -24,13 +24,15 @@ class AuditTool {
             });
         }
 
-        // Formulário do checklist
         if (form) {
             form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.addItemToChecklist();
+                const formData = this.getFormData();
+                if (!this.validateForm(formData)) {
+                    e.preventDefault(); 
+                } 
             });
         }
+        
     }
 
     addItemToChecklist() {
@@ -50,18 +52,17 @@ class AuditTool {
             resultado: document.getElementById('resultado').value,
             responsavel: document.getElementById('responsavel').value.trim(),
             classificacao: document.getElementById('classificacao').value,
-            situacao: document.getElementById('situacao').value,
-            dataIdentificacao: document.getElementById('dataIdentificacao').value,
+            data_identificacao: document.getElementById('data_identificacao').value,
             prazo: document.getElementById('prazo').value,
-            dataEscalonamento: document.getElementById('dataEscalonamento').value || '-',
-            dataConclusao: document.getElementById('dataConclusao').value || '-',
+            data_escalonamento: document.getElementById('data_escalonamento').value || '-',
+            data_conclusao: document.getElementById('data_conclusao').value || '-',
             observacoes: document.getElementById('observacoes').value.trim() || '-',
-            acaoCorretiva: document.getElementById('acaoCorretiva').value.trim()
+            acao_corretiva_indicada: document.getElementById('acao_corretiva_indicada').value.trim()
         };
     }
 
     validateForm(data) {
-        const required = ['descricao', 'resultado', 'responsavel', 'classificacao', 'situacao', 'dataIdentificacao', 'prazo', 'acaoCorretiva'];
+        const required = ['descricao', 'resultado', 'responsavel', 'classificacao', 'data_identificacao', 'prazo', 'acao_corretiva_indicada'];
         
         for (let field of required) {
             if (!data[field] || data[field] === '') {
@@ -78,10 +79,9 @@ class AuditTool {
             resultado: 'Resultado',
             responsavel: 'Responsável',
             classificacao: 'Classificação da NCF',
-            situacao: 'Situação da NCF',
-            dataIdentificacao: 'Data de Identificação',
+            data_identificacao: 'Data de Identificação',
             prazo: 'Prazo',
-            acaoCorretiva: 'Ação Corretiva'
+            acao_corretiva_indicada: 'Ação Corretiva'
         };
         return labels[field] || field;
     }
@@ -112,26 +112,15 @@ class AuditTool {
             <td>${data.resultado}</td>
             <td>${data.responsavel}</td>
             <td><span class="status-badge ncf-${data.classificacao.toLowerCase()}">${data.classificacao}</span></td>
-            <td><span class="status-badge status-${this.getSituacaoClass(data.situacao)}">${data.situacao}</span></td>
-            <td class="date-cell">${this.formatDate(data.dataIdentificacao)}</td>
+            <td class="date-cell">${this.formatDate(data.data_identificacao)}</td>
             <td class="date-cell">${this.formatDate(data.prazo)}</td>
-            <td class="date-cell">${data.dataEscalonamento !== '-' ? this.formatDate(data.dataEscalonamento) : '-'}</td>
-            <td class="date-cell">${data.dataConclusao !== '-' ? this.formatDate(data.dataConclusao) : '-'}</td>
+            <td class="date-cell">${data.data_escalonamento !== '-' ? this.formatDate(data.data_escalonamento) : '-'}</td>
+            <td class="date-cell">${data.data_conclusao !== '-' ? this.formatDate(data.data_conclusao) : '-'}</td>
             <td>${data.observacoes}</td>
-            <td>${data.acaoCorretiva}</td>
+            <td>${data.acao_corretiva_indicada}</td>
         `;
 
         return row;
-    }
-
-    getSituacaoClass(situacao) {
-        const map = {
-            'Pendente': 'pendente',
-            'Em Andamento': 'andamento',
-            'Concluído': 'concluido',
-            'Vencido': 'vencido'
-        };
-        return map[situacao] || 'pendente';
     }
 
     formatDate(dateString) {
