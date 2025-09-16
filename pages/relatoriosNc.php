@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307;
 $dbname = 'ferramenta_auditoria';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 $pdo = null;
 $conexao_erro = false;
@@ -282,7 +282,7 @@ if (!$conexao_erro) {
 [data-theme="dark"]{
   --bg:#0b0e11; --text:#E5E7EB; --muted:#94A3B8; --border:#1f2429; --card:#11161b; --subtle:#0d1116;
 }
-body{ background:var(--bg); color:var(--text); }
+
 
 .export-bar{
   display:flex; justify-content:flex-end; gap:10px; margin: -10px 0 20px;

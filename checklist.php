@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = '';
+$password = 'root';
 
 $checklist_nome = isset($_SESSION['checklist_nome']) ? $_SESSION['checklist_nome'] : 'Checklist de Auditoria';
 $checklist_id = isset($_SESSION['checklist_id']) ? $_SESSION['checklist_id'] : null;

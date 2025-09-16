@@ -2,7 +2,7 @@
     $servername = "localhost";
     $port = 3307; 
     $username = "root";
-    $password = "";  // se necessário, ajuste a senha ou remova-a
+    $password = "root";  // se necessário, ajuste a senha ou remova-a
     $dbname = "ferramenta_auditoria";
 
     $conn = new mysqli($servername, $username, $password, $dbname, $port);

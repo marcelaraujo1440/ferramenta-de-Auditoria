@@ -7,10 +7,45 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #ffffff;
+    /* Gradiente abstrato bem mais visível */
+    background: 
+        radial-gradient(ellipse 900px 700px at 5% 15%, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, transparent 50%),
+        radial-gradient(ellipse 800px 900px at 95% 85%, rgba(80, 80, 80, 0.22) 0%, rgba(120, 120, 120, 0.12) 35%, transparent 55%),
+        radial-gradient(ellipse 600px 600px at 75% 25%, rgba(255, 255, 255, 0.8) 0%, rgba(240, 240, 240, 0.4) 40%, transparent 60%),
+        radial-gradient(ellipse 700px 400px at 25% 75%, rgba(220, 220, 220, 0.6) 0%, rgba(200, 200, 200, 0.3) 45%, transparent 65%),
+        radial-gradient(ellipse 500px 500px at 60% 10%, rgba(0, 0, 0, 0.12) 0%, transparent 40%),
+        linear-gradient(135deg, #f0f0f0 0%, #ffffff 25%, #f8f8f8 50%, #e8e8e8 75%, #fafafa 100%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
     color: #000000;
     line-height: 1.6;
     min-height: 100vh;
+    position: relative;
+}
+
+/* Efeito adicional de padrão geométrico mais visível */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.08) 3px, transparent 3px),
+        radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.06) 2px, transparent 2px),
+        radial-gradient(circle at 50% 20%, rgba(150, 150, 150, 0.05) 1px, transparent 1px),
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 80px,
+            rgba(0, 0, 0, 0.02) 80px,
+            rgba(0, 0, 0, 0.02) 82px
+        );
+    background-size: 80px 80px, 60px 60px, 40px 40px, 100% 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.9;
 }
 
 /* Container Principal */
@@ -18,13 +53,20 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 60px 40px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Navegação */
 .main-nav {
-    border-bottom: 1px solid #e0e0e0;
+
     margin-bottom: 60px;
     padding-bottom: 20px;
+  
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .nav-list {
@@ -66,6 +108,12 @@ body {
     text-align: center;
     max-width: 480px;
     margin: 0 auto;
+
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .page-title {
@@ -136,11 +184,13 @@ body {
     display: inline-block;
     text-align: center;
     border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
     background: #333333;
     transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:active {
@@ -148,7 +198,7 @@ body {
 }
 
 .btn-secondary {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
     color: #000000;
     border: 1px solid #e0e0e0;
     padding: 12px 20px;
@@ -161,6 +211,7 @@ body {
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
@@ -210,20 +261,23 @@ body {
     border-bottom: 2px solid #00aa00;
 }
 
-
 /* Container da Tabela */
 .table-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
     overflow-x: auto;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Estilos da Tabela */
 table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
+    background: transparent;
     font-size: 14px;
     border-radius: 8px;
     overflow: hidden;
@@ -260,7 +314,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background: #fafafa;
+    background: rgba(250, 250, 250, 0.8);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -367,6 +421,10 @@ tbody td:first-child {
 
 /* Responsividade */
 @media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
+    
     .container {
         padding: 40px 20px;
     }
@@ -374,6 +432,14 @@ tbody td:first-child {
     .nav-list {
         gap: 20px;
         flex-wrap: wrap;
+    }
+    
+    .main-nav {
+        padding: 15px;
+    }
+    
+    .main-content {
+        padding: 30px 20px;
     }
 
     .page-title {
@@ -427,6 +493,10 @@ tbody td:first-child {
 }
 
 @media (max-width: 480px) {
+    .main-content {
+        padding: 25px 15px;
+    }
+    
     .checklist-form {
         padding: 15px;
     }
