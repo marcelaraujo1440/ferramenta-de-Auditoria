@@ -5,7 +5,7 @@ $host = 'localhost';
 $port = '3307'; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root';
-$password = 'root';
+$password = '';
 
 function validar_datetime($valor) {
     if (empty($valor)) {

@@ -59,14 +59,14 @@ body::before {
 
 /* Navegação */
 .main-nav {
-
     margin-bottom: 60px;
-    padding-bottom: 20px;
-  
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
     padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .nav-list {
@@ -108,12 +108,13 @@ body::before {
     text-align: center;
     max-width: 480px;
     margin: 0 auto;
-
-    backdrop-filter: blur(15px);
     padding: 40px;
     border-radius: 12px;
-
     border: 1px solid rgba(255, 255, 255, 0.2);
+
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
 }
 
 .page-title {
@@ -124,7 +125,7 @@ body::before {
     letter-spacing: -1px;
 }
 
-/* Seção do Botão Adicionar - Centralizada e mais próxima do título */
+/* Seção do Botão Adicionar */
 .add-item-section {
     text-align: center;
     margin-bottom: 60px;
@@ -198,7 +199,7 @@ body::before {
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.85);
     color: #000000;
     border: 1px solid #e0e0e0;
     padding: 12px 20px;
@@ -211,6 +212,8 @@ body::before {
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
+
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -267,10 +270,12 @@ body::before {
     margin: 0 auto;
     padding: 0 20px;
     overflow-x: auto;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 /* Estilos da Tabela */
@@ -567,4 +572,15 @@ tbody td:first-child {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ——— Fallback: se o navegador não suportar backdrop-filter ——— */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .main-nav,
+  .main-content,
+  .btn-secondary,
+  .table-container {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
 }
