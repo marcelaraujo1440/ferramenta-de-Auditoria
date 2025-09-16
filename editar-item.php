@@ -5,7 +5,7 @@ $host = 'localhost';
 $port = '3307'; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 function validar_datetime($valor) {
     if (empty($valor)) {
@@ -129,7 +129,7 @@ try {
 
                     <div class="form-group">
                         <label class="form-label" for="classificacao">Classificação</label>
-                        <select id="classificacao" name="classificacao" class="form-input" required>
+                        <select id="classificacao" name="classificacao" class="form-input">
                             <option value="">Selecione...</option>
                             <option value="Simples" <?php if($item['classificacao']=="Simples") echo "selected"; ?>>Simples</option>
                             <option value="Média" <?php if($item['classificacao']=="Média") echo "selected"; ?>>Média</option>

@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307;
 $dbname = 'ferramenta_auditoria';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 $pdo = null;
 $conexao_erro = false;

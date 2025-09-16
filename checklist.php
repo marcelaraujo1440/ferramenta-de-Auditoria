@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = '';
+$password = 'root';
 
 $checklist_nome = isset($_SESSION['checklist_nome']) ? $_SESSION['checklist_nome'] : 'Checklist de Auditoria';
 $checklist_id = isset($_SESSION['checklist_id']) ? $_SESSION['checklist_id'] : null;
@@ -160,16 +160,16 @@ if (!$conexao_erro && (!$checklist_nome || $checklist_nome === 'Checklist de Aud
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($item['id']) . "</td>";
                                     echo "<td>" . htmlspecialchars($item['descricao']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['resultado']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['resultado'] ) . "</td>";
                                     echo "<td>" . htmlspecialchars($item['responsavel']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['classificacao']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['classificacao'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['situacao'] ?? '') . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['data_identificacao'] ?? '') . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['prazo'] ?? '') . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['data_identificacao'] ) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['prazo'] ) . "</td>";
                                     echo "<td>" . htmlspecialchars($item['data_escalonamento'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['data_conclusao'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['observacoes'] ?? '') . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['acao_corretiva_indicada'] ?? '') . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['acao_corretiva_indicada']) . "</td>";
                                     echo "<td>
                                             <a href='editar-item.php?id=" . $item['id'] . "' class='btn-secondary'>Editar</a>
                                             <a href='excluir-item.php?id=" . $item['id'] . "' class='btn-secondary' onclick=\"return confirm('Tem certeza que deseja excluir este item?');\">Excluir</a>

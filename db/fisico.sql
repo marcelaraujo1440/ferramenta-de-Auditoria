@@ -7,7 +7,7 @@ CREATE TABLE checklist (
     descricao TEXT,
     resultado ENUM('Sim', 'Não'),
     responsavel VARCHAR(100),
-    classificacao ENUM('Simples', 'Média', 'Complexa'),
+    classificacao ENUM('Simples', 'Média', 'Complexa') NULL,
     data_identificacao DATETIME,
     prazo DATETIME,
     data_escalonamento DATETIME,

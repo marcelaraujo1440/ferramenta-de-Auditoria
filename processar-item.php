@@ -27,6 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = trim($_POST['resultado']);
     $responsavel = trim($_POST['responsavel']);
     $classificacao = trim($_POST['classificacao']);
+    
+    // Se classificação estiver vazia, definir como NULL
+    if (empty($classificacao)) {
+        $classificacao = null;
+    }
 
     $data_identificacao = validar_datetime($_POST['data_identificacao']);
     $prazo = validar_datetime($_POST['prazo']);
@@ -48,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     if ($sql_checklist->execute()) {
-        echo "<script>alert('Cadastro realizado com sucesso!'); location.href='checklist.php';</script>";
+        echo "<script>alert('Item adicionado ao checklist com sucesso!'); location.href='checklist.php';</script>";
     } else {
         echo "Erro: " . $sql_checklist->error;
     }

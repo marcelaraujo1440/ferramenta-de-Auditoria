@@ -26,6 +26,19 @@ class AuditTool {
 
         if (form) {
             form.addEventListener('submit', (e) => {
+                // Verificar se os elementos existem antes de validar
+                const descricao = document.getElementById('descricao');
+                const resultado = document.getElementById('resultado');
+                const responsavel = document.getElementById('responsavel');
+                const dataIdentificacao = document.getElementById('data_identificacao');
+                const prazo = document.getElementById('prazo');
+                const acaoCorretiva = document.getElementById('acao_corretiva_indicada');
+                
+                // Se algum elemento não existir, deixar o formulário seguir normalmente
+                if (!descricao || !resultado || !responsavel || !dataIdentificacao || !prazo || !acaoCorretiva) {
+                    return;
+                }
+                
                 const formData = this.getFormData();
                 if (!this.validateForm(formData)) {
                     e.preventDefault(); 
@@ -46,23 +59,35 @@ class AuditTool {
     }
 
     getFormData() {
+        // Verificar se os elementos existem antes de acessar
+        const descricaoEl = document.getElementById('descricao');
+        const resultadoEl = document.getElementById('resultado');
+        const responsavelEl = document.getElementById('responsavel');
+        const classificacaoEl = document.getElementById('classificacao');
+        const dataIdentificacaoEl = document.getElementById('data_identificacao');
+        const prazoEl = document.getElementById('prazo');
+        const dataEscalonamentoEl = document.getElementById('data_escalonamento');
+        const dataConclusaoEl = document.getElementById('data_conclusao');
+        const observacoesEl = document.getElementById('observacoes');
+        const acaoCorretivaEl = document.getElementById('acao_corretiva_indicada');
+        
         return {
             id: String(this.currentId).padStart(3, '0'),
-            descricao: document.getElementById('descricao').value.trim(),
-            resultado: document.getElementById('resultado').value,
-            responsavel: document.getElementById('responsavel').value.trim(),
-            classificacao: document.getElementById('classificacao').value,
-            data_identificacao: document.getElementById('data_identificacao').value,
-            prazo: document.getElementById('prazo').value,
-            data_escalonamento: document.getElementById('data_escalonamento').value || '-',
-            data_conclusao: document.getElementById('data_conclusao').value || '-',
-            observacoes: document.getElementById('observacoes').value.trim() || '-',
-            acao_corretiva_indicada: document.getElementById('acao_corretiva_indicada').value.trim()
+            descricao: descricaoEl ? descricaoEl.value.trim() : '',
+            resultado: resultadoEl ? resultadoEl.value : '',
+            responsavel: responsavelEl ? responsavelEl.value.trim() : '',
+            classificacao: classificacaoEl ? classificacaoEl.value : '',
+            data_identificacao: dataIdentificacaoEl ? dataIdentificacaoEl.value : '',
+            prazo: prazoEl ? prazoEl.value : '',
+            data_escalonamento: dataEscalonamentoEl ? (dataEscalonamentoEl.value || '-') : '-',
+            data_conclusao: dataConclusaoEl ? (dataConclusaoEl.value || '-') : '-',
+            observacoes: observacoesEl ? (observacoesEl.value.trim() || '-') : '-',
+            acao_corretiva_indicada: acaoCorretivaEl ? acaoCorretivaEl.value.trim() : ''
         };
     }
 
     validateForm(data) {
-        const required = ['descricao', 'resultado', 'responsavel', 'classificacao', 'data_identificacao', 'prazo', 'acao_corretiva_indicada'];
+        const required = ['descricao', 'resultado', 'responsavel', 'data_identificacao', 'prazo', 'acao_corretiva_indicada'];
         
         for (let field of required) {
             if (!data[field] || data[field] === '') {
@@ -106,12 +131,16 @@ class AuditTool {
     createTableRow(data) {
         const row = document.createElement('tr');
         
+        // Tratar classificação vazia
+        const classificacaoDisplay = data.classificacao || '-';
+        const classificacaoClass = data.classificacao ? `ncf-${data.classificacao.toLowerCase()}` : '';
+        
         row.innerHTML = `
             <td>${data.id}</td>
             <td>${data.descricao}</td>
             <td>${data.resultado}</td>
             <td>${data.responsavel}</td>
-            <td><span class="status-badge ncf-${data.classificacao.toLowerCase()}">${data.classificacao}</span></td>
+            <td><span class="status-badge ${classificacaoClass}">${classificacaoDisplay}</span></td>
             <td class="date-cell">${this.formatDate(data.data_identificacao)}</td>
             <td class="date-cell">${this.formatDate(data.prazo)}</td>
             <td class="date-cell">${data.data_escalonamento !== '-' ? this.formatDate(data.data_escalonamento) : '-'}</td>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+    
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Adicionar Item - Ferramenta de Auditoria</title>
         <link rel="stylesheet" href="./styles/add-item.css">
+        <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
         <div class="container">
@@ -12,7 +14,7 @@
                 <ul class="nav-list">
                     <li><a href="index.php" class="nav-link">Início</a></li>
                     <li><a href="checklist.php" class="nav-link">Checklist</a></li>
-                    <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
+                    <li><a href="pages/relatoriosNc.php" class="nav-link">Relatórios</a></li>
                     <li><a href="pages/envio_comunicacao.php" class="nav-link">Envio e Comunicação</a></li>
                 </ul>
             </nav>
@@ -49,7 +51,7 @@
 
                     <div class="form-group">
                         <label class="form-label" for="classificacao">Classificação</label>
-                        <select id="classificacao" name="classificacao" class="form-input" required>
+                        <select id="classificacao" name="classificacao" class="form-input" >
                             <option value="">Selecione...</option>
                             <option value="Simples">Simples</option>
                             <option value="Média">Média</option>
