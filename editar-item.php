@@ -2,6 +2,7 @@
 session_start();
 
 $host = 'localhost';
+$port = '3307'; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root';
 $password = '';
@@ -23,7 +24,8 @@ function validar_datetime($valor) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if (!isset($_GET['id'])) {
@@ -70,7 +72,7 @@ try {
     }
 
 } catch (PDOException $e) {
-    die("Erro: " . $e->getMessage());
+    die("Erro de conexão: " . $e->getMessage() . "<br>Verifique se o MySQL está rodando na porta 3307");
 }
 ?>
 
@@ -88,7 +90,7 @@ try {
                 <ul class="nav-list">
                     <li><a href="index.php" class="nav-link">Início</a></li>
                     <li><a href="checklist.php" class="nav-link">Checklist</a></li>
-                    <li><a href="pages/relatorios.php" class="nav-link">Relatórios</a></li>
+                    <li><a href="pages/relatoriosNc.php" class="nav-link">Relatórios</a></li>
                     <li><a href="pages/envio_comunicacao.php" class="nav-link">Envio e Comunicação</a></li>
                 </ul>
             </nav>
