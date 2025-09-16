@@ -38,8 +38,9 @@
 .reports-container {
   display: block;
   margin-top: 8px;
-  user-select: text;
   -webkit-user-select: text; /* Safari */
+  user-select: text;
+  
 }
 
 /* ======================== TITULAÇÃO / SEÇÕES ======================== */
