@@ -51,7 +51,7 @@
 
                     <div class="form-group">
                         <label class="form-label" for="classificacao">Classificação</label>
-                        <select id="classificacao" name="classificacao" class="form-input" >
+                        <select id="classificacao" name="classificacao" class="form-input">
                             <option value="">Selecione...</option>
                             <option value="Simples">Simples</option>
                             <option value="Média">Média</option>
@@ -62,13 +62,27 @@
 
                 <div class="form-row">
                     <div class="form-group">
+                        <label class="form-label" for="situacao">Situação da NCF</label>
+                        <select id="situacao" name="situacao" class="form-input">
+                            <option value="">Selecione...</option>
+                            <option value="Resolvido">Resolvido</option>
+                            <option value="Não Resolvido">Não Resolvido</option>
+                            <option value="Em Aberto">Em Aberto</option>
+                        </select>
+                    </div>
+                    
+                   
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <label class="form-label" for="data_identificacao">Data de Identificação</label>
                         <input type="datetime-local" id="data_identificacao" name="data_identificacao" class="form-input" required>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="prazo">Prazo</label>
-                        <input type="datetime-local" id="prazo" name="prazo" class="form-input" required>
+                        <input type="datetime-local" id="prazo" name="prazo" class="form-input">
                     </div>
                 </div>
 
@@ -92,7 +106,7 @@
 
                     <div class="form-group">
                         <label class="form-label" for="acao_corretiva_indicada">Ação Corretiva Indicada</label>
-                        <input type="text" id="acao_corretiva_indicada" name="acao_corretiva_indicada" class="form-input" placeholder="Descreva a ação corretiva" required>
+                        <input type="text" id="acao_corretiva_indicada" name="acao_corretiva_indicada" class="form-input" placeholder="Descreva a ação corretiva">
                     </div>
                 </div>
 

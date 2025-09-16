@@ -23,14 +23,43 @@ function validar_datetime($valor) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar se há um checklist selecionado na sessão
+    if (!isset($_SESSION['checklist_nome']) || empty($_SESSION['checklist_nome'])) {
+        echo "<script>alert('Nenhum checklist selecionado. Redirecionando...'); location.href='listar-checklists.php';</script>";
+        exit;
+    }
+    
+    $checklist_nome = $_SESSION['checklist_nome'];
+    
     $descricao = trim($_POST['descricao']);
     $resultado = trim($_POST['resultado']);
     $responsavel = trim($_POST['responsavel']);
     $classificacao = trim($_POST['classificacao']);
+    $situacao = trim($_POST['situacao']);
     
-    // Se classificação estiver vazia, definir como NULL
-    if (empty($classificacao)) {
+    // Se classificação estiver vazia ou resultado for "Sim", definir como NULL
+    if (empty($classificacao) || $resultado === 'Sim') {
         $classificacao = null;
+    }
+    
+    // Se ação corretiva estiver vazia ou resultado for "Sim", definir como NULL
+    if (empty($acao_corretiva_indicada) || $resultado === 'Sim') {
+        $acao_corretiva_indicada = null;
+    }
+    
+    // Se situação estiver vazia ou resultado for "Sim", definir como NULL
+    if (empty($situacao) || $resultado === 'Sim') {
+        $situacao = null;
+    }
+    
+    // Se prazo estiver vazio ou resultado for "Sim", definir como NULL
+    if ($resultado === 'Sim') {
+        $prazo = null;
+    }
+    
+    // Se data de escalonamento estiver vazia ou resultado for "Sim", definir como NULL
+    if ($resultado === 'Sim') {
+        $data_escalonamento = null;
     }
 
     $data_identificacao = validar_datetime($_POST['data_identificacao']);
@@ -42,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $acao_corretiva_indicada = trim($_POST['acao_corretiva_indicada']);
 
     $sql_checklist = $conn->prepare("INSERT INTO checklist 
-        (descricao, resultado, responsavel, classificacao, data_identificacao, prazo, data_escalonamento, data_conclusao, observacoes, acao_corretiva_indicada) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        (nome, descricao, resultado, responsavel, classificacao, situacao, data_identificacao, prazo, data_escalonamento, data_conclusao, observacoes, acao_corretiva_indicada) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $sql_checklist->bind_param(
-        "ssssssssss",
-        $descricao, $resultado, $responsavel, $classificacao,
+        "ssssssssssss",
+        $checklist_nome, $descricao, $resultado, $responsavel, $classificacao, $situacao,
         $data_identificacao, $prazo, $data_escalonamento, $data_conclusao,
         $observacoes, $acao_corretiva_indicada
     );

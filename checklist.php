@@ -24,22 +24,12 @@ try {
     $erro_mensagem = $e->getMessage();
 }
 
-// Se conectou e não tem nome do checklist, buscar o último
-if (!$conexao_erro && (!$checklist_nome || $checklist_nome === 'Checklist de Auditoria')) {
-    try {
-        $sql = "SELECT id, nome FROM checklist ORDER BY id DESC LIMIT 1";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $ultimo_checklist = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($ultimo_checklist) {
-            $checklist_nome = $ultimo_checklist['nome'];
-            $checklist_id = $ultimo_checklist['id'];
-            $_SESSION['checklist_nome'] = $checklist_nome;
-            $_SESSION['checklist_id'] = $checklist_id;
-        }
-    } catch (PDOException $e) {
-        // Manter valores padrão se houver erro
+// Verificar se há um checklist selecionado
+if (!$conexao_erro) {
+    if (!$checklist_nome || $checklist_nome === 'Checklist de Auditoria' || !$checklist_id) {
+        // Se não há checklist selecionado, redirecionar para a lista
+        header('Location: listar-checklists.php');
+        exit;
     }
 }
 ?>
@@ -130,9 +120,16 @@ if (!$conexao_erro && (!$checklist_nome || $checklist_nome === 'Checklist de Aud
                 <tbody>
                     <?php
                     try {
-                        $sqlItens = "SELECT * FROM checklist ORDER BY id ASC";
-                        $stmt = $pdo->prepare($sqlItens);
-                        $stmt->execute();
+                        // Buscar apenas os itens do checklist específico selecionado
+                        if ($checklist_nome && $checklist_nome !== 'Checklist de Auditoria') {
+                            $sqlItens = "SELECT * FROM checklist WHERE nome = ? AND (descricao IS NOT NULL AND descricao != '') ORDER BY id ASC";
+                            $stmt = $pdo->prepare($sqlItens);
+                            $stmt->execute([$checklist_nome]);
+                        } else {
+                            // Se não há checklist selecionado, não mostrar nenhum item
+                            $stmt = $pdo->prepare("SELECT * FROM checklist WHERE 1=0");
+                            $stmt->execute();
+                        }
                         $itens = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                         if ($itens) {
@@ -159,17 +156,17 @@ if (!$conexao_erro && (!$checklist_nome || $checklist_nome === 'Checklist de Aud
                                     $itens_exibidos++;
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($item['id']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['descricao']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['resultado'] ) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['responsavel']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['descricao'] ?? '') . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['resultado'] ?? '') . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['responsavel'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['classificacao'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['situacao'] ?? '') . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['data_identificacao'] ) . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['prazo'] ) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['data_identificacao'] ?? '') . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['prazo'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['data_escalonamento'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['data_conclusao'] ?? '') . "</td>";
                                     echo "<td>" . htmlspecialchars($item['observacoes'] ?? '') . "</td>";
-                                    echo "<td>" . htmlspecialchars($item['acao_corretiva_indicada']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($item['acao_corretiva_indicada'] ?? '') . "</td>";
                                     echo "<td>
                                             <a href='editar-item.php?id=" . $item['id'] . "' class='btn-secondary'>Editar</a>
                                             <a href='excluir-item.php?id=" . $item['id'] . "' class='btn-secondary' onclick=\"return confirm('Tem certeza que deseja excluir este item?');\">Excluir</a>

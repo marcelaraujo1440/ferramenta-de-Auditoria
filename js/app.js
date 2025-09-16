@@ -46,6 +46,9 @@ class AuditTool {
             });
         }
         
+        // Gerenciar campos específicos de NC baseado no resultado
+        this.setupCamposNC();
+        
     }
 
     addItemToChecklist() {
@@ -64,6 +67,7 @@ class AuditTool {
         const resultadoEl = document.getElementById('resultado');
         const responsavelEl = document.getElementById('responsavel');
         const classificacaoEl = document.getElementById('classificacao');
+        const situacaoEl = document.getElementById('situacao');
         const dataIdentificacaoEl = document.getElementById('data_identificacao');
         const prazoEl = document.getElementById('prazo');
         const dataEscalonamentoEl = document.getElementById('data_escalonamento');
@@ -77,6 +81,7 @@ class AuditTool {
             resultado: resultadoEl ? resultadoEl.value : '',
             responsavel: responsavelEl ? responsavelEl.value.trim() : '',
             classificacao: classificacaoEl ? classificacaoEl.value : '',
+            situacao: situacaoEl ? situacaoEl.value : '',
             data_identificacao: dataIdentificacaoEl ? dataIdentificacaoEl.value : '',
             prazo: prazoEl ? prazoEl.value : '',
             data_escalonamento: dataEscalonamentoEl ? (dataEscalonamentoEl.value || '-') : '-',
@@ -87,7 +92,7 @@ class AuditTool {
     }
 
     validateForm(data) {
-        const required = ['descricao', 'resultado', 'responsavel', 'data_identificacao', 'prazo', 'acao_corretiva_indicada'];
+        const required = ['descricao', 'resultado', 'responsavel', 'data_identificacao'];
         
         for (let field of required) {
             if (!data[field] || data[field] === '') {
@@ -95,6 +100,30 @@ class AuditTool {
                 return false;
             }
         }
+        
+        // Validar campos específicos apenas se resultado for "Não" (não conformidade)
+        if (data.resultado === 'Não') {
+            if (!data.classificacao || data.classificacao === '') {
+                alert('Por favor, preencha a Classificação da NCF para não conformidades');
+                return false;
+            }
+            
+            if (!data.acao_corretiva_indicada || data.acao_corretiva_indicada === '') {
+                alert('Por favor, preencha a Ação Corretiva para não conformidades');
+                return false;
+            }
+            
+            if (!data.situacao || data.situacao === '') {
+                alert('Por favor, preencha a Situação da NCF para não conformidades');
+                return false;
+            }
+            
+            if (!data.prazo || data.prazo === '') {
+                alert('Por favor, preencha o Prazo para não conformidades');
+                return false;
+            }
+        }
+        
         return true;
     }
 
@@ -104,6 +133,7 @@ class AuditTool {
             resultado: 'Resultado',
             responsavel: 'Responsável',
             classificacao: 'Classificação da NCF',
+            situacao: 'Situação da NCF',
             data_identificacao: 'Data de Identificação',
             prazo: 'Prazo',
             acao_corretiva_indicada: 'Ação Corretiva'
@@ -247,6 +277,97 @@ class AuditTool {
             if (input) {
                 input.value = '';
             }
+        }
+    }
+
+    setupCamposNC() {
+        const resultadoEl = document.getElementById('resultado');
+        const classificacaoEl = document.getElementById('classificacao');
+        const acaoCorretivaEl = document.getElementById('acao_corretiva_indicada');
+        const situacaoEl = document.getElementById('situacao');
+        const prazoEl = document.getElementById('prazo');
+        const dataEscalonamentoEl = document.getElementById('data_escalonamento');
+        
+        if (resultadoEl && (classificacaoEl || acaoCorretivaEl || situacaoEl || prazoEl || dataEscalonamentoEl)) {
+            // Função para gerenciar o estado dos campos baseado no resultado
+            const toggleCamposNC = () => {
+                if (resultadoEl.value === 'Sim') {
+                    // Se é conformidade, desabilitar e limpar campos específicos de NC
+                    if (classificacaoEl) {
+                        classificacaoEl.value = '';
+                        classificacaoEl.disabled = true;
+                        classificacaoEl.style.backgroundColor = '#f5f5f5';
+                        classificacaoEl.style.color = '#999';
+                    }
+                    
+                    if (acaoCorretivaEl) {
+                        acaoCorretivaEl.value = '';
+                        acaoCorretivaEl.disabled = true;
+                        acaoCorretivaEl.style.backgroundColor = '#f5f5f5';
+                        acaoCorretivaEl.style.color = '#999';
+                        acaoCorretivaEl.placeholder = 'Não aplicável para conformidades';
+                    }
+                    
+                    if (situacaoEl) {
+                        situacaoEl.value = '';
+                        situacaoEl.disabled = true;
+                        situacaoEl.style.backgroundColor = '#f5f5f5';
+                        situacaoEl.style.color = '#999';
+                    }
+                    
+                    if (prazoEl) {
+                        prazoEl.value = '';
+                        prazoEl.disabled = true;
+                        prazoEl.style.backgroundColor = '#f5f5f5';
+                        prazoEl.style.color = '#999';
+                    }
+                    
+                    if (dataEscalonamentoEl) {
+                        dataEscalonamentoEl.value = '';
+                        dataEscalonamentoEl.disabled = true;
+                        dataEscalonamentoEl.style.backgroundColor = '#f5f5f5';
+                        dataEscalonamentoEl.style.color = '#999';
+                    }
+                } else {
+                    // Se é não conformidade, habilitar todos os campos
+                    if (classificacaoEl) {
+                        classificacaoEl.disabled = false;
+                        classificacaoEl.style.backgroundColor = '';
+                        classificacaoEl.style.color = '';
+                    }
+                    
+                    if (acaoCorretivaEl) {
+                        acaoCorretivaEl.disabled = false;
+                        acaoCorretivaEl.style.backgroundColor = '';
+                        acaoCorretivaEl.style.color = '';
+                        acaoCorretivaEl.placeholder = 'Descreva a ação corretiva necessária...';
+                    }
+                    
+                    if (situacaoEl) {
+                        situacaoEl.disabled = false;
+                        situacaoEl.style.backgroundColor = '';
+                        situacaoEl.style.color = '';
+                    }
+                    
+                    if (prazoEl) {
+                        prazoEl.disabled = false;
+                        prazoEl.style.backgroundColor = '';
+                        prazoEl.style.color = '';
+                    }
+                    
+                    if (dataEscalonamentoEl) {
+                        dataEscalonamentoEl.disabled = false;
+                        dataEscalonamentoEl.style.backgroundColor = '';
+                        dataEscalonamentoEl.style.color = '';
+                    }
+                }
+            };
+            
+            // Executar na inicialização
+            toggleCamposNC();
+            
+            // Executar quando o resultado mudar
+            resultadoEl.addEventListener('change', toggleCamposNC);
         }
     }
 }

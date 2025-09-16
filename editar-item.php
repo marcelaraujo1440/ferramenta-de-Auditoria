@@ -47,8 +47,34 @@ try {
         $resultado = $_POST['resultado'];
         $responsavel = $_POST['responsavel'];
         $classificacao = $_POST['classificacao'];
+        $situacao = $_POST['situacao'];
         $observacoes = $_POST['observacoes'];
         $acao_corretiva_indicada = $_POST['acao_corretiva_indicada'];
+
+        // Se classificação estiver vazia ou resultado for "Sim", definir como NULL
+        if (empty($classificacao) || $resultado === 'Sim') {
+            $classificacao = null;
+        }
+        
+        // Se ação corretiva estiver vazia ou resultado for "Sim", definir como NULL
+        if (empty($acao_corretiva_indicada) || $resultado === 'Sim') {
+            $acao_corretiva_indicada = null;
+        }
+        
+        // Se situação estiver vazia ou resultado for "Sim", definir como NULL
+        if (empty($situacao) || $resultado === 'Sim') {
+            $situacao = null;
+        }
+        
+        // Se prazo estiver vazio ou resultado for "Sim", definir como NULL
+        if ($resultado === 'Sim') {
+            $prazo = null;
+        }
+        
+        // Se data de escalonamento estiver vazia ou resultado for "Sim", definir como NULL
+        if ($resultado === 'Sim') {
+            $data_escalonamento = null;
+        }
 
         $data_identificacao = validar_datetime($_POST['data_identificacao']);
         $prazo = validar_datetime($_POST['prazo']);
@@ -56,13 +82,13 @@ try {
         $data_conclusao = validar_datetime($_POST['data_conclusao']);
 
         $sql = "UPDATE checklist 
-                SET descricao=?, resultado=?, responsavel=?, classificacao=?, 
+                SET descricao=?, resultado=?, responsavel=?, classificacao=?, situacao=?,
                     data_identificacao=?, prazo=?, data_escalonamento=?, data_conclusao=?, 
                     observacoes=?, acao_corretiva_indicada=? 
                 WHERE id=?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
-            $descricao, $resultado, $responsavel, $classificacao,
+            $descricao, $resultado, $responsavel, $classificacao, $situacao,
             $data_identificacao, $prazo, $data_escalonamento, $data_conclusao,
             $observacoes, $acao_corretiva_indicada, $id
         ]);
@@ -107,7 +133,7 @@ try {
                     <div class="form-group">
                         <label class="form-label" for="descricao">Descrição</label>
                         <input type="text" id="descricao" name="descricao" class="form-input" 
-                               value="<?php echo htmlspecialchars($item['descricao']); ?>" required>
+                               value="<?php echo htmlspecialchars($item['descricao'] ?? ''); ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -124,7 +150,7 @@ try {
                     <div class="form-group">
                         <label class="form-label" for="responsavel">Responsável</label>
                         <input type="text" id="responsavel" name="responsavel" class="form-input" 
-                               value="<?php echo htmlspecialchars($item['responsavel']); ?>" required>
+                               value="<?php echo htmlspecialchars($item['responsavel'] ?? ''); ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -140,6 +166,22 @@ try {
 
                 <div class="form-row">
                     <div class="form-group">
+                        <label class="form-label" for="situacao">Situação da NCF</label>
+                        <select id="situacao" name="situacao" class="form-input">
+                            <option value="">Selecione...</option>
+                            <option value="Resolvido" <?php if($item['situacao']=="Resolvido") echo "selected"; ?>>Resolvido</option>
+                            <option value="Não Resolvido" <?php if($item['situacao']=="Não Resolvido") echo "selected"; ?>>Não Resolvido</option>
+                            <option value="Em Aberto" <?php if($item['situacao']=="Em Aberto") echo "selected"; ?>>Em Aberto</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <!-- Campo vazio para manter o layout em grid 2 colunas -->
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <label class="form-label" for="data_identificacao">Data de Identificação</label>
                         <input type="datetime-local" id="data_identificacao" name="data_identificacao" class="form-input"
                                value="<?php echo $item['data_identificacao'] ? date('Y-m-d\TH:i', strtotime($item['data_identificacao'])) : ''; ?>" required>
@@ -148,7 +190,7 @@ try {
                     <div class="form-group">
                         <label class="form-label" for="prazo">Prazo</label>
                         <input type="datetime-local" id="prazo" name="prazo" class="form-input"
-                               value="<?php echo $item['prazo'] ? date('Y-m-d\TH:i', strtotime($item['prazo'])) : ''; ?>" required>
+                               value="<?php echo $item['prazo'] ? date('Y-m-d\TH:i', strtotime($item['prazo'])) : ''; ?>">
                     </div>
                 </div>
 
@@ -170,13 +212,13 @@ try {
                     <div class="form-group">
                         <label class="form-label" for="observacoes">Observações</label>
                         <input type="text" id="observacoes" name="observacoes" class="form-input"
-                               value="<?php echo htmlspecialchars($item['observacoes']); ?>">
+                               value="<?php echo htmlspecialchars($item['observacoes'] ?? ''); ?>">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="acao_corretiva_indicada">Ação Corretiva Indicada</label>
                         <input type="text" id="acao_corretiva_indicada" name="acao_corretiva_indicada" class="form-input"
-                               value="<?php echo htmlspecialchars($item['acao_corretiva_indicada']); ?>" required>
+                               value="<?php echo htmlspecialchars($item['acao_corretiva_indicada'] ?? ''); ?>">
                     </div>
                 </div>
 

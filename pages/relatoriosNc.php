@@ -40,7 +40,7 @@ if (!$conexao_erro && isset($_GET['action'])) {
         }
         try {
             $stmt = $pdo->prepare("
-                SELECT id, nome, descricao, resultado, responsavel, classificacao,
+                SELECT id, nome, descricao, resultado, responsavel, classificacao, situacao,
                        data_identificacao, prazo, data_escalonamento, data_conclusao
                 FROM checklist
                 WHERE DATE(COALESCE(data_identificacao, prazo)) = :d
@@ -63,7 +63,7 @@ if (!$conexao_erro && isset($_GET['action'])) {
         }
         try {
             $stmt = $pdo->prepare("
-                SELECT id, nome, descricao, resultado, responsavel, classificacao,
+                SELECT id, nome, descricao, resultado, responsavel, classificacao, situacao,
                        data_identificacao, prazo, data_escalonamento, data_conclusao
                 FROM checklist
                 WHERE responsavel = :r
@@ -143,7 +143,10 @@ if (!$conexao_erro) {
                 SUM(CASE WHEN classificacao = 'Média' THEN 1 ELSE 0 END) AS media,
                 SUM(CASE WHEN classificacao = 'Complexa' THEN 1 ELSE 0 END) AS complexa,
                 SUM(CASE WHEN prazo IS NOT NULL AND prazo < NOW() AND data_conclusao IS NULL THEN 1 ELSE 0 END) AS vencidas,
-                SUM(CASE WHEN data_conclusao IS NOT NULL THEN 1 ELSE 0 END) AS concluidas
+                SUM(CASE WHEN data_conclusao IS NOT NULL THEN 1 ELSE 0 END) AS concluidas,
+                SUM(CASE WHEN situacao = 'Resolvido' THEN 1 ELSE 0 END) AS resolvidos,
+                SUM(CASE WHEN situacao = 'Não Resolvido' THEN 1 ELSE 0 END) AS nao_resolvidos,
+                SUM(CASE WHEN situacao = 'Em Aberto' THEN 1 ELSE 0 END) AS em_aberto
             FROM checklist
             WHERE (descricao IS NOT NULL AND descricao != '')
         ");
@@ -446,6 +449,23 @@ if (!$conexao_erro) {
                     <div class="stat-label">Itens/Dia (média)</div>
                     <div class="stat-description">Volume médio diário</div>
                 </div>
+                
+                <!-- Estatísticas de Situação -->
+                <div id="kpi-resolvidos" class="stat-card situacao-resolvido">
+                    <div class="stat-number" data-target="<?= $estatisticas['resolvidos'] ?? 0 ?>">0</div>
+                    <div class="stat-label">Resolvidos</div>
+                    <div class="stat-description">Itens totalmente solucionados</div>
+                </div>
+                <div id="kpi-nao-resolvidos" class="stat-card situacao-nao-resolvido">
+                    <div class="stat-number" data-target="<?= $estatisticas['nao_resolvidos'] ?? 0 ?>">0</div>
+                    <div class="stat-label">Não Resolvidos</div>
+                    <div class="stat-description">Itens ainda sem solução</div>
+                </div>
+                <div id="kpi-em-aberto" class="stat-card situacao-em-aberto">
+                    <div class="stat-number" data-target="<?= $estatisticas['em_aberto'] ?? 0 ?>">0</div>
+                    <div class="stat-label">Em Aberto</div>
+                    <div class="stat-description">Itens em análise ou aguardando</div>
+                </div>
             </div>
 
             <!-- Gráficos -->
@@ -534,10 +554,10 @@ if (!$conexao_erro) {
                     ?>
                         <div class="prazo-item <?= $classe ?>">
                             <div class="prazo-info">
-                                <div class="prazo-descricao"><?= htmlspecialchars($item['descricao']) ?></div>
+                                <div class="prazo-descricao"><?= htmlspecialchars($item['descricao'] ?? '') ?></div>
                                 <div class="prazo-responsavel">
-                                    <?= htmlspecialchars($item['responsavel']) ?> • 
-                                    <?= htmlspecialchars($item['classificacao']) ?> • 
+                                    <?= htmlspecialchars($item['responsavel'] ?? '') ?> • 
+                                    <?= htmlspecialchars($item['classificacao'] ?? '') ?> • 
                                     ID: <?= (int)$item['id'] ?>
                                 </div>
                             </div>
@@ -765,7 +785,7 @@ modal.addEventListener('click', (e)=>{ if (e.target===modal) closeDrill(); });
 function tableFromItems(items){
   if(!items.length) return '<div class="no-data">Sem itens para exibir.</div>';
   let html = '<table class="drill-table"><thead><tr>';
-  html += '<th>ID</th><th>Nome</th><th>Descrição</th><th>Resultado</th><th>Responsável</th><th>Classificação</th><th>Identificação</th><th>Prazo</th><th>Escalonamento</th><th>Conclusão</th>';
+  html += '<th>ID</th><th>Nome</th><th>Descrição</th><th>Resultado</th><th>Responsável</th><th>Classificação</th><th>Situação</th><th>Identificação</th><th>Prazo</th><th>Escalonamento</th><th>Conclusão</th>';
   html += '</tr></thead><tbody>';
   for(const it of items){
     html += '<tr>';
@@ -775,6 +795,7 @@ function tableFromItems(items){
     html += `<td><span class="badge">${it.resultado ?? ''}</span></td>`;
     html += `<td>${it.responsavel ?? ''}</td>`;
     html += `<td>${it.classificacao ?? ''}</td>`;
+    html += `<td><span class="badge situacao-${(it.situacao ?? '').toLowerCase().replace(' ', '-').replace('ã', 'a')}">${it.situacao ?? ''}</span></td>`;
     html += `<td>${(it.data_identificacao ?? '').replace('T',' ').slice(0,16)}</td>`;
     html += `<td>${(it.prazo ?? '').replace('T',' ').slice(0,16)}</td>`;
     html += `<td>${(it.data_escalonamento ?? '').replace('T',' ').slice(0,16)}</td>`;
