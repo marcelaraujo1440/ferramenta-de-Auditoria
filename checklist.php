@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = 'root';
+$password = '';
 
 $checklist_nome = isset($_SESSION['checklist_nome']) ? $_SESSION['checklist_nome'] : 'Checklist de Auditoria';
 $checklist_id = isset($_SESSION['checklist_id']) ? $_SESSION['checklist_id'] : null;
@@ -25,13 +25,6 @@ try {
 }
 
 // Verificar se há um checklist selecionado
-if (!$conexao_erro) {
-    if (!$checklist_nome || $checklist_nome === 'Checklist de Auditoria' || !$checklist_id) {
-        // Se não há checklist selecionado, redirecionar para a lista
-        header('Location: listar-checklists.php');
-        exit;
-    }
-}
 ?>
 
 <!DOCTYPE html>
