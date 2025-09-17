@@ -6,7 +6,7 @@ $host = 'localhost';
 $port = 3307; // Porta correta
 $dbname = 'ferramenta_auditoria';
 $username = 'root'; 
-$password = '';
+$password = 'root';
 
 $checklist_nome = isset($_SESSION['checklist_nome']) ? $_SESSION['checklist_nome'] : 'Checklist de Auditoria';
 $checklist_id = isset($_SESSION['checklist_id']) ? $_SESSION['checklist_id'] : null;
@@ -69,6 +69,7 @@ try {
                 <li><a href="index.php" class="nav-link">Início</a></li>
                 <li><a href="checklist.php" class="nav-link">Checklist</a></li>
                 <li><a href="pages/relatoriosNc.php" class="nav-link">Relatórios</a></li>
+                <li><a href="nao_conformidades.php" class="nav-link">Não-Conformidades</a></li>
                 <li><a href="pages/envio_comunicacao.php" class="nav-link">Envio e Comunicação</a></li>
             </ul>
         </nav>

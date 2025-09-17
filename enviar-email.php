@@ -81,7 +81,7 @@ if (!empty($item['data_identificacao'])) {
     }
 }
 
-$remetente = 'checklistes1@gmail.com';
+$remetente = 'bielzinralaqueijo@gmail.com';
 $assunto = "Solicitação de Resolução de Não Conformidade #".$item['id'];
 
 $mensagem = "
